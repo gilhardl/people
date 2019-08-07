@@ -1,3 +1,10 @@
 export const environment = {
-  production: false
+  production: false,
+  db: {
+    host: 'localhost',
+    port: 3306,
+    username: 'root',
+    password: 'root',
+    database: 'people'
+  }
 };

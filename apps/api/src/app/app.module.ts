@@ -1,16 +1,18 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 
+import { environment } from '../environments/environment';
+
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
 const typeOrmOptions: TypeOrmModuleOptions = {
   type: 'mysql',
-  host: 'localhost',
-  port: 3306,
-  username: 'root',
-  password: 'root',
-  database: 'people',
+  host: environment.db.host,
+  port: environment.db.port,
+  username: environment.db.username,
+  password: environment.db.password,
+  database: environment.db.database,
   synchronize: true,
   entities: []
 };
