@@ -17,8 +17,14 @@
             "polyfills": "apps/people/src/polyfills.ts",
             "tsConfig": "apps/people/tsconfig.app.json",
             "aot": false,
-            "assets": ["apps/people/src/favicon.ico", "apps/people/src/assets"],
-            "styles": ["apps/people/src/styles.css"],
+            "assets": [
+              "apps/people/src/favicon.ico",
+              "apps/people/src/assets"
+            ],
+            "styles": [
+              "apps/people/src/custom-theme.scss",
+              "apps/people/src/styles.css"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -73,7 +79,10 @@
               "apps/people/tsconfig.app.json",
               "apps/people/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!apps/people/**"]
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/people/**"
+            ]
           }
         },
         "test": {
@@ -108,8 +117,13 @@
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "tslint",
-            "tsConfig": ["apps/people-e2e/tsconfig.e2e.json"],
-            "exclude": ["**/node_modules/**", "!apps/people-e2e/**"]
+            "tsConfig": [
+              "apps/people-e2e/tsconfig.e2e.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/people-e2e/**"
+            ]
           }
         }
       }
@@ -127,7 +141,9 @@
             "outputPath": "dist/apps/api",
             "main": "apps/api/src/main.ts",
             "tsConfig": "apps/api/tsconfig.app.json",
-            "assets": ["apps/api/src/assets"]
+            "assets": [
+              "apps/api/src/assets"
+            ]
           },
           "configurations": {
             "production": {
@@ -157,7 +173,10 @@
               "apps/api/tsconfig.app.json",
               "apps/api/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!apps/api/**"]
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/api/**"
+            ]
           }
         },
         "test": {
