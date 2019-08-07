@@ -6,7 +6,7 @@
       "schematics": {},
       "root": "apps/people",
       "sourceRoot": "apps/people/src",
-      "prefix": "people",
+      "prefix": "ppl",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
