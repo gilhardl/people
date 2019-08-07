@@ -50,7 +50,11 @@
     "reflect-metadata": "^0.1.12",
     "rxjs": "~6.4.0",
     "typeorm": "^0.2.18",
-    "zone.js": "^0.9.1"
+    "zone.js": "^0.9.1",
+    "@ngrx/store": "8.1.0",
+    "@ngrx/effects": "8.1.0",
+    "@ngrx/entity": "8.1.0",
+    "@ngrx/router-store": "8.1.0"
   },
   "devDependencies": {
     "@angular/cli": "8.1.2",
@@ -75,6 +79,8 @@
     "@nrwl/cypress": "8.4.4",
     "@nrwl/node": "8.4.4",
     "@nestjs/schematics": "^6.3.0",
-    "@nestjs/testing": "^6.2.4"
+    "@nestjs/testing": "^6.2.4",
+    "@ngrx/schematics": "8.1.0",
+    "@ngrx/store-devtools": "8.1.0"
   }
 }
