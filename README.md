@@ -4,18 +4,18 @@ People is a lightweight contact manager that store and organize informations abo
 
 The key principle of People are :
 
-* Lightweight
+* Lightweight & user-friendly
 * Extensible & exportable
-* Ergonomic
 
 For now, it's not planned to manage customer relationships because People focuses on people arround your company and helping you collect informations about them. With a great contact database, you can integrate a lot of tools like :
-* CRM (Salesforce)
-* ERP
-* Project management
-* Emailing
+* CRM / ERP ([Salesforce](https://www.salesforce.com), [Sage](https://www.sage.com), [Zoho](https://www.zoho.eu))
+* Project management ([Asana](https://asana.com/), [Jira](https://www.atlassian.com/fr/software/jira))
+* Emailing ([Mailchimp](https://mailchimp.com/), [Sendgrid](https://sendgrid.com/))
 * etc...
 
-# How to use this repo
+> Visit [People's wiki](https://github.com/gilhardl/people/wiki/) for detailled specifications.
+
+# How the project works
 
 This project is managed using [Nx](https://nx.dev).
 
