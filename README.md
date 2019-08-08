@@ -1,37 +1,38 @@
 # People
 
-This project was generated using [Nx](https://nx.dev).
+People is a lightweight contact manager that store and organize informations about your contacts, customers, providers, etc...
 
-<p align="center"><img src="https://raw.githubusercontent.com/nrwl/nx/master/nx-logo.png" width="450"></p>
+The key principle of People are :
 
-🔎 **Nx is a set of Extensible Dev Tools for Monorepos.**
+* Lightweight
+* Extensible & exportable
+* Ergonomic
 
-## Quick Start & Documentation
+For now, it's not planned to manage customer relationships because People focuses on people arround your company and helping you collect informations about them. With a great contact database, you can integrate a lot of tools like :
+* CRM (Salesforce)
+* ERP
+* Project management
+* Emailing
+* etc...
 
-[Nx Documentation](https://nx.dev/angular)
+# How to use this repo
 
-[10-minute video showing all Nx features](https://nx.dev/angular/getting-started/what-is-nx)
+This project is managed using [Nx](https://nx.dev).
 
-[Interactive Tutorial](https://nx.dev/angular/tutorial/01-create-application)
+🔎 **Nx is a set of Extensible Dev Tools for Monorepos.** ([Nx Documentation](https://nx.dev/angular))
 
-## Adding capabilities to your workspace
+## Adding capabilities to the workspace
 
 Nx supports many plugins which add capabilities for developing different types of applications and different tools.
 
 These capabilities include generating applications, libraries, etc as well as the devtools to test, and build projects as well.
 
-Below are some plugins which you can add to your workspace:
+Below are some plugins which you can add to the workspace:
 
 - [Angular](https://angular.io)
   - `ng add @nrwl/angular`
-- [React](https://reactjs.org)
-  - `ng add @nrwl/react`
-- Web (no framework frontends)
-  - `ng add @nrwl/web`
 - [Nest](https://nestjs.com)
   - `ng add @nrwl/nest`
-- [Express](https://expressjs.com)
-  - `ng add @nrwl/express`
 - [Node](https://nodejs.org)
   - `ng add @nrwl/node`
 
@@ -51,13 +52,13 @@ Run `ng g @nrwl/angular:lib my-lib` to generate a library.
 
 Libraries are sharable across libraries and applications. They can be imported from `@people/mylib`.
 
+## Code scaffolding
+
+Run `ng g [module|component|service|directive|etc...] my-component --project=my-app` to generate a new module, component, service, directive, etc...
+
 ## Development server
 
 Run `ng serve my-app` for a dev server. Navigate to http://localhost:4200/. The app will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng g component my-component --project=my-app` to generate a new component.
 
 ## Build
 
@@ -75,10 +76,6 @@ Run `ng e2e my-app` to execute the end-to-end tests via [Cypress](https://www.cy
 
 Run `nx affected:e2e` to execute the end-to-end tests affected by a change.
 
-## Understand your workspace
+## Understand the workspace
 
 Run `nx dep-graph` to see a diagram of the dependencies of your projects.
-
-## Further help
-
-Visit the [Nx Documentation](https://nx.dev/angular) to learn more.
