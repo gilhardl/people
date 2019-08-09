@@ -1,12 +1,13 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
-
 import { environment } from '../environments/environment';
-
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-
 import { User } from './entities/user.entity';
+import { UsersModule } from './users/users.module';
+
+
+
 
 const typeOrmOptions: TypeOrmModuleOptions = {
   type: 'mysql',
@@ -20,7 +21,7 @@ const typeOrmOptions: TypeOrmModuleOptions = {
 };
 
 @Module({
-  imports: [TypeOrmModule.forRoot(typeOrmOptions)],
+  imports: [TypeOrmModule.forRoot(typeOrmOptions), UsersModule],
   controllers: [AppController],
   providers: [AppService]
 })
