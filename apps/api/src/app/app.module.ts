@@ -6,6 +6,8 @@ import { environment } from '../environments/environment';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
+import { User } from './entities/user.entity';
+
 const typeOrmOptions: TypeOrmModuleOptions = {
   type: 'mysql',
   host: environment.db.host,
@@ -14,7 +16,7 @@ const typeOrmOptions: TypeOrmModuleOptions = {
   password: environment.db.password,
   database: environment.db.database,
   synchronize: true,
-  entities: []
+  entities: [User]
 };
 
 @Module({
@@ -22,4 +24,4 @@ const typeOrmOptions: TypeOrmModuleOptions = {
   controllers: [AppController],
   providers: [AppService]
 })
-export class AppModule {}
+export class AppModule { }
