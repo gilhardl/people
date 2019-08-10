@@ -7,14 +7,16 @@ import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
 
 import { User } from '../entities/user.entity';
 
+import { UsersEntity } from '@people/users';
+
 @Injectable()
 export class UsersService extends TypeOrmCrudService<User> {
   constructor(@InjectRepository(User) repo: Repository<User>) {
     super(repo);
   }
 
-  async findOneByUsername(username: string) {
-    const users: User[] = await this.repo.find({
+  async findOneByUsername(username: string): Promise<UsersEntity> {
+    const users: UsersEntity[] = await this.repo.find({
       username: Equal(username)
     });
     return users.length > 0 ? users[0] : null;
