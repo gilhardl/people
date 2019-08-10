@@ -7,10 +7,10 @@ import { UsersService } from './users.service';
 
 @Crud({
   model: {
-    type: User,
-  },
+    type: User
+  }
 })
 @Controller('users')
 export class UsersController implements CrudController<User> {
-  constructor(public service: UsersService) { }
+  constructor(public service: UsersService) {}
 }
