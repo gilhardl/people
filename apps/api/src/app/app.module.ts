@@ -5,6 +5,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { User } from './entities/user.entity';
 import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
 
 
 
@@ -21,7 +22,7 @@ const typeOrmOptions: TypeOrmModuleOptions = {
 };
 
 @Module({
-  imports: [TypeOrmModule.forRoot(typeOrmOptions), UsersModule],
+  imports: [TypeOrmModule.forRoot(typeOrmOptions), UsersModule, AuthModule],
   controllers: [AppController],
   providers: [AppService]
 })
