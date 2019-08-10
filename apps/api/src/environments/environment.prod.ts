@@ -6,5 +6,6 @@ export const environment = {
     username: 'root',
     password: 'root',
     database: 'people'
-  }
+  },
+  jwtSecret: 'superSecretKey'
 };
