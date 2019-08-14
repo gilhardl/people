@@ -8,36 +8,36 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { NxModule, DataPersistence } from '@nrwl/angular';
 import { hot } from '@nrwl/angular/testing';
 
-import { UsersEffects } from './users.effects';
-import * as UsersActions from './users.actions';
+import { RouterEffects } from './router.effects';
+import * as RouterActions from './router.actions';
 
-describe('UsersEffects', () => {
+describe('RouterEffects', () => {
   let actions: Observable<any>;
-  let effects: UsersEffects;
+  let effects: RouterEffects;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [NxModule.forRoot()],
       providers: [
-        UsersEffects,
+        RouterEffects,
         DataPersistence,
         provideMockActions(() => actions),
         provideMockStore()
       ]
     });
 
-    effects = TestBed.get(UsersEffects);
+    effects = TestBed.get(RouterEffects);
   });
 
-  describe('loadUsers$', () => {
+  describe('loadRouter$', () => {
     it('should work', () => {
-      actions = hot('-a-|', { a: UsersActions.loadUsers() });
+      actions = hot('-a-|', { a: RouterActions.loadRouter() });
 
       const expected = hot('-a-|', {
-        a: UsersActions.loadUsersSuccess({ users: [] })
+        a: RouterActions.loadRouterSuccess({ router: [] })
       });
 
-      expect(effects.loadUsers$).toBeObservable(expected);
+      expect(effects.loadRouter$).toBeObservable(expected);
     });
   });
 });
