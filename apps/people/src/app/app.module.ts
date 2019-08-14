@@ -12,6 +12,8 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HomeComponent } from './home/home.component';
 
+import { RouterModule } from '@people/router';
+
 @NgModule({
   declarations: [AppComponent, HomeComponent],
   imports: [
@@ -29,7 +31,8 @@ import { HomeComponent } from './home/home.component';
       }
     ),
     EffectsModule.forRoot([]),
-    !environment.production ? StoreDevtoolsModule.instrument() : []
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
+    RouterModule
   ],
   providers: [],
   bootstrap: [AppComponent]

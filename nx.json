@@ -22,6 +22,9 @@
     },
     "users": {
       "tags": []
+    },
+    "router": {
+      "tags": []
     }
   }
 }

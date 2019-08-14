@@ -16,7 +16,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@people/users": ["libs/users/src/index.ts"]
+      "@people/users": ["libs/users/src/index.ts"],
+      "@people/router": ["libs/router/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
