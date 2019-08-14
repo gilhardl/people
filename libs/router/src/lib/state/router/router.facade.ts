@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { select, Store } from '@ngrx/store';
 
-import * as fromRouter from './router.reducer';
+import { RouterPartialState } from './router.reducer';
 import * as RouterSelectors from './router.selectors';
 
 @Injectable()
@@ -17,5 +17,5 @@ export class RouterFacade {
   selectRouteData$ = this.store.pipe(select(RouterSelectors.selectRouteData));
   selectUrl$ = this.store.pipe(select(RouterSelectors.selectUrl));
 
-  constructor(private store: Store<fromRouter.RouterPartialState>) {}
+  constructor(private store: Store<RouterPartialState>) {}
 }
