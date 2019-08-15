@@ -7,16 +7,13 @@ import { User } from './entities/user.entity';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 
-
-
-
 const typeOrmOptions: TypeOrmModuleOptions = {
   type: 'mysql',
-  host: environment.db.host,
-  port: environment.db.port,
-  username: environment.db.username,
-  password: environment.db.password,
-  database: environment.db.database,
+  host: process.env.DB_HOST,
+  port: parseInt(process.env.DB_PORT),
+  username: process.env.DB_USERNAME,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DATABASE,
   synchronize: true,
   entities: [User]
 };
@@ -26,4 +23,4 @@ const typeOrmOptions: TypeOrmModuleOptions = {
   controllers: [AppController],
   providers: [AppService]
 })
-export class AppModule { }
+export class AppModule {}
