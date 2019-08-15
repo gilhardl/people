@@ -11,6 +11,8 @@ import { AuthGuard } from '@nestjs/passport';
 
 import * as sgMail from '@sendgrid/mail';
 
+import { environment } from '../../environments/environment';
+
 import { AuthService } from './auth.service';
 import { UsersService } from '../users/users.service';
 
@@ -65,7 +67,7 @@ export class AuthController {
     const confirmationUrl = body.confirmationUrl + '/' + token;
 
     sgMail.send({
-      to: 'l.gilhard@gmail.com',
+      to: environment.production ? user.email : 'l.gilhard@gmail.com',
       from: 'People<people@flud.fr>',
       subject: 'Activate your account',
       text: `
