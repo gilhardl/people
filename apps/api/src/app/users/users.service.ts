@@ -21,4 +21,34 @@ export class UsersService extends TypeOrmCrudService<User> {
     });
     return users.length > 0 ? users[0] : null;
   }
+
+  async register(
+    username: string,
+    email: string,
+    firstname: string,
+    lastname: string
+  ): Promise<User> {
+    const user = this.repo.create({
+      username: username,
+      password: '',
+      role: 'administrator',
+      firstname: firstname,
+      lastname: lastname,
+      phone: '',
+      email: email,
+      job: ''
+    });
+    return this.repo.save(user);
+  }
+
+  async isEmailAvailable(email: string) {
+    const users: UsersEntity[] = await this.repo
+      .createQueryBuilder('user')
+      .where('user.username = :username or user.username like :domain', {
+        username: email,
+        domain: '%@' + email.split('@')[1]
+      })
+      .execute();
+    return users.length > 0 ? false : true;
+  }
 }
