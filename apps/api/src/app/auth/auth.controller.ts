@@ -9,6 +9,8 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 
+import * as sgMail from '@sendgrid/mail';
+
 import { AuthService } from './auth.service';
 import { UsersService } from '../users/users.service';
 
@@ -60,8 +62,29 @@ export class AuthController {
       );
     }
 
-    const confirmUrl = body.confirmationUrl + '/' + token;
-    console.log(confirmUrl);
+    const confirmationUrl = body.confirmationUrl + '/' + token;
+
+    sgMail.send({
+      to: 'l.gilhard@gmail.com',
+      from: 'People<people@flud.fr>',
+      subject: 'Activate your account',
+      text: `
+        ${user.firstname} ${user.lastname},\n
+        To activate your People account, please verify your email address.\n
+        Your account will not be created until your email address is confirmed.\n\n
+        To verify your email, copy and paste the following URL into your browser:\n
+        ${confirmationUrl}
+      `,
+      html: `
+        <p>${user.firstname} ${user.lastname},</p>
+        <p>To activate your People account, please verify your email address.<br />
+        Your account will not be created until your email address is confirmed.</p>
+        <a href="${confirmationUrl}">Verify my email address</a>
+        <br />
+        <p>Or, copy and paste the following URL into your browser:</p>
+        <a href="${confirmationUrl}">${confirmationUrl}</a>
+      `
+    });
 
     return true;
   }
