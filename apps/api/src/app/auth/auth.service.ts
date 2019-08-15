@@ -1,8 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { UsersService } from '../users/users.service';
+
+import * as uuid from 'uuid/v4';
 
 import { UsersEntity } from '@people/users';
+
+import { UsersService } from '../users/users.service';
+import { User } from '../entities/user.entity';
 
 @Injectable()
 export class AuthService {
@@ -25,6 +29,30 @@ export class AuthService {
     return {
       jwt: this.jwtService.sign(payload),
       user: user
+    };
+  }
+
+  async register(
+    username: string,
+    email: string,
+    firstname: string,
+    lastname: string
+  ): Promise<{ user: User; token: string }> {
+    const user: User = await this.usersService.register(
+      username,
+      email,
+      firstname,
+      lastname
+    );
+    const { password, confirmationToken, recoverToken, ...result } = user;
+
+    const tokenValue = uuid();
+
+    // Todo : Implements Token feature
+
+    return {
+      user: result,
+      token: tokenValue
     };
   }
 }
