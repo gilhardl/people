@@ -1,4 +1,5 @@
-import { Controller } from '@nestjs/common';
+import { Controller, UseGuards } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 
 import { Crud, CrudController } from '@nestjsx/crud';
 
@@ -7,10 +8,11 @@ import { UsersService } from './users.service';
 
 @Crud({
   model: {
-    type: User,
-  },
+    type: User
+  }
 })
+@UseGuards(AuthGuard('jwt'))
 @Controller('users')
 export class UsersController implements CrudController<User> {
-  constructor(public service: UsersService) { }
+  constructor(public service: UsersService) {}
 }

@@ -7,10 +7,7 @@ import { User } from './entities/user.entity';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 
-
-
-
-const typeOrmOptions: TypeOrmModuleOptions = {
+export const typeOrmOptions: TypeOrmModuleOptions = {
   type: 'mysql',
   host: environment.db.host,
   port: environment.db.port,
@@ -26,4 +23,4 @@ const typeOrmOptions: TypeOrmModuleOptions = {
   controllers: [AppController],
   providers: [AppService]
 })
-export class AppModule { }
+export class AppModule {}
