@@ -4,12 +4,16 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 
 import { environment } from '../../environments/environment';
 
+import * as uuid from 'uuid/v4';
+
 import { AuthService } from './auth.service';
 import { UsersService } from '../users/users.service';
 
 import { User } from '../entities/user.entity';
 
 import * as mocks from '../users/__mocks__/users';
+
+jest.mock('uuid/v4');
 
 const MockRepository = jest.fn().mockImplementation(() => {
   return {
@@ -72,7 +76,7 @@ describe('AuthService', () => {
     });
   });
 
-  describe.only('signin', () => {
+  describe('signin', () => {
     it('should return given user associated with a jwt', async () => {
       const { password, confirmationToken, recoverToken, ...user } = mocks.user;
 
@@ -80,6 +84,43 @@ describe('AuthService', () => {
 
       expect(result.user).toBe(user);
       expect(result.jwt).toBeDefined();
+    });
+  });
+
+  describe('register', () => {
+    it('should create and return an non-confirmed administrator user and a confirmation token', async () => {
+      const { password, confirmationToken, recoverToken, ...user } = mocks.user;
+      user.username = user.email; // The frontend use user email as username
+
+      const expected = {
+        user: {
+          id: 1,
+          username: user.username,
+          confirmed: false,
+          role: 'administrator',
+          firstname: user.firstname,
+          lastname: user.lastname,
+          phone: '',
+          email: user.email,
+          job: ''
+        },
+        token: '10ba038e-48da-487b-96e8-8d3b99b6d18a'
+      };
+
+      jest
+        .spyOn(usersService, 'register')
+        .mockImplementation(async () => expected.user);
+
+      uuid.mockReturnValue(expected.token);
+
+      const result = await service.register(
+        user.username,
+        user.email,
+        user.lastname,
+        user.firstname
+      );
+
+      expect(result).toMatchObject(expected);
     });
   });
 });
