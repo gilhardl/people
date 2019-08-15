@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { JwtService, JwtModule } from '@nestjs/jwt';
+import { JwtModule } from '@nestjs/jwt';
 import { getRepositoryToken } from '@nestjs/typeorm';
 
 import { environment } from '../../environments/environment';
@@ -47,7 +47,7 @@ describe('AuthService', () => {
   });
 
   describe('validateUser', () => {
-    test('should return user matching given credentials (success)', async () => {
+    it('should return user matching given credentials (success)', async () => {
       const { password, confirmationToken, recoverToken, ...user } = mocks.user;
 
       jest
@@ -73,7 +73,7 @@ describe('AuthService', () => {
   });
 
   describe.only('signin', () => {
-    it.only('should return given user associated with a jwt', async () => {
+    it('should return given user associated with a jwt', async () => {
       const { password, confirmationToken, recoverToken, ...user } = mocks.user;
 
       const result = await service.signin(user);
