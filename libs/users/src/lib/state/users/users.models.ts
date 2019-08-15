@@ -2,9 +2,10 @@
  * Interface for the 'Users' data
  */
 export interface UsersEntity {
-  id: number;
+  id?: number;
   username: string;
   password?: string;
+  confirmed: boolean;
   confirmationToken?: string;
   recoverToken?: string;
   role: string;

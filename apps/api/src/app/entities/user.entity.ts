@@ -13,17 +13,22 @@ export class User implements UsersEntity {
   @Column({
     default: ''
   })
-  password: string;
+  password?: string;
+
+  @Column({
+    default: false
+  })
+  confirmed: boolean;
 
   @Column({
     default: ''
   })
-  confirmationToken: string;
+  confirmationToken?: string;
 
   @Column({
     default: ''
   })
-  recoverToken: string;
+  recoverToken?: string;
 
   @Column()
   role: string;

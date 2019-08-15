@@ -1,12 +1,13 @@
 import * as faker from 'faker';
 
-import { UsersEntity } from '@people/users';
+import { User } from '../../entities/user.entity';
 
-export const users: UsersEntity[] = [
+export const users: User[] = [
   {
     id: 1,
     username: faker.internet.userName(),
     role: 'administrator',
+    confirmed: true,
     password: faker.internet.password(),
     confirmationToken: faker.random.uuid(),
     recoverToken: faker.random.uuid(),
@@ -20,6 +21,7 @@ export const users: UsersEntity[] = [
     id: 2,
     username: faker.internet.userName(),
     role: 'authenticated',
+    confirmed: true,
     password: faker.internet.password(),
     confirmationToken: faker.random.uuid(),
     recoverToken: faker.random.uuid(),
@@ -33,6 +35,7 @@ export const users: UsersEntity[] = [
     id: 3,
     username: faker.internet.userName(),
     role: 'authenticated',
+    confirmed: true,
     password: faker.internet.password(),
     confirmationToken: faker.random.uuid(),
     recoverToken: faker.random.uuid(),
@@ -46,6 +49,7 @@ export const users: UsersEntity[] = [
     id: 4,
     username: faker.internet.userName(),
     role: 'authenticated',
+    confirmed: true,
     password: faker.internet.password(),
     confirmationToken: faker.random.uuid(),
     recoverToken: faker.random.uuid(),
@@ -59,6 +63,7 @@ export const users: UsersEntity[] = [
     id: 5,
     username: faker.internet.userName(),
     role: 'authenticated',
+    confirmed: true,
     password: faker.internet.password(),
     confirmationToken: faker.random.uuid(),
     recoverToken: faker.random.uuid(),
@@ -70,4 +75,4 @@ export const users: UsersEntity[] = [
   }
 ];
 
-export const user: UsersEntity = users[2];
+export const user: User = users[2];
