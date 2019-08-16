@@ -5,7 +5,9 @@ import {
   UseGuards,
   Body,
   HttpException,
-  HttpStatus
+  HttpStatus,
+  Get,
+  Param
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 
@@ -17,6 +19,8 @@ import { AuthService } from './auth.service';
 import { UsersService } from '../users/users.service';
 
 import { BANNED_EMAIL_DOMAINS } from './banned-email-domains';
+
+const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 @Controller('auth')
 export class AuthController {
@@ -89,5 +93,18 @@ export class AuthController {
     });
 
     return true;
+  }
+
+  @Get('email-availability/:email')
+  async emailAvailability(@Param() params) {
+    if (!params.email.match(emailRegex)) {
+      throw new HttpException('invalid-email', HttpStatus.BAD_REQUEST);
+    }
+
+    if (BANNED_EMAIL_DOMAINS.includes(params.email.split('@')[1])) {
+      return false;
+    }
+
+    return this.usersService.isEmailAvailable(params.email);
   }
 }
