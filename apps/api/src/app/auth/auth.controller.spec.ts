@@ -189,4 +189,44 @@ describe('Auth Controller', () => {
       expect(sgMail.send).toHaveBeenCalled();
     });
   });
+
+  describe('emailAvailability', () => {
+    it('should return true (success)', async () => {
+      const email = 'john.doe@fakedomain.com';
+
+      jest
+        .spyOn(usersService, 'isEmailAvailable')
+        .mockImplementation(async () => true);
+
+      const res = await controller.emailAvailability({ email: email });
+
+      expect(res).toBe(true);
+    });
+
+    it('should return false (error)', async () => {
+      let email = 'john.doe@gmail.com';
+      let res = await controller.emailAvailability({ email: email });
+      expect(res).toBe(false);
+
+      email = 'john.doe@fakedomain.com';
+      jest
+        .spyOn(usersService, 'isEmailAvailable')
+        .mockImplementation(async () => false);
+      res = await controller.emailAvailability({ email: email });
+
+      expect(res).toBe(false);
+    });
+
+    it('should throw an exception on invalid email', () => {
+      const email = 'this.is.not.an.email';
+
+      jest
+        .spyOn(usersService, 'isEmailAvailable')
+        .mockImplementation(async () => true);
+
+      expect(controller.emailAvailability({ email: email })).rejects.toThrow(
+        'invalid-email'
+      );
+    });
+  });
 });
