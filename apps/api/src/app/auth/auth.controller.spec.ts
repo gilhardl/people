@@ -2,6 +2,8 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { JwtModule } from '@nestjs/jwt';
 import { getRepositoryToken } from '@nestjs/typeorm';
 
+import * as sgMail from '@sendgrid/mail';
+
 import { environment } from '../../environments/environment';
 
 import { AuthController } from './auth.controller';
@@ -11,7 +13,12 @@ import { UsersService } from '../users/users.service';
 import { User } from '../entities/user.entity';
 
 import * as mocks from '../users/__mocks__/users';
-import { HttpException } from '@nestjs/common';
+
+jest.mock('@sendgrid/mail', () => ({
+  send: jest
+    .fn()
+    .mockImplementation(() => [{ statusCode: 202, message: 'Accepted' }])
+}));
 
 const MockRepository = jest.fn().mockImplementation(() => {
   return {
@@ -153,6 +160,33 @@ describe('Auth Controller', () => {
           confirmationUrl: 'http://localhost:4200/#/auth/confirm'
         })
       ).rejects.toThrow('user-creation-error');
+    });
+
+    it('should send a confirmation email to user', async () => {
+      const { password, confirmationToken, recoverToken, ...user } = mocks.user;
+      user.email = user.email.split('@')[0] + '@fakedomain.com'; // Ensure to don't throw 'banned-email-domain' exception
+      user.username = user.email; // The frontend use user email as username
+
+      const expected = {
+        user: user,
+        token: 'super-secret-uuid-token'
+      };
+
+      jest
+        .spyOn(usersService, 'isEmailAvailable')
+        .mockImplementation(async () => true);
+
+      jest.spyOn(service, 'register').mockImplementation(async () => expected);
+
+      await controller.register({
+        username: user.username,
+        email: user.email,
+        firstname: user.firstname,
+        lastname: user.lastname,
+        confirmationUrl: 'http://localhost:4200/#/auth/confirm'
+      });
+
+      expect(sgMail.send).toHaveBeenCalled();
     });
   });
 });
