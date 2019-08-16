@@ -52,8 +52,8 @@
     "@ngrx/router-store": "8.1.0",
     "@ngrx/store": "8.1.0",
     "@nrwl/angular": "8.4.4",
-    "@types/faker": "^4.1.5",
     "@sendgrid/mail": "^6.4.0",
+    "@types/faker": "^4.1.5",
     "class-transformer": "^0.2.3",
     "class-validator": "^0.9.1",
     "core-js": "^2.5.4",
@@ -67,6 +67,7 @@
     "rxjs": "~6.4.0",
     "typeorm": "^0.2.18",
     "uuid": "^3.3.2",
+    "uuid-time": "^1.0.0",
     "zone.js": "^0.9.1"
   },
   "devDependencies": {
