@@ -88,6 +88,11 @@ export class AuthService {
 
     user = await this.usersService.confirm(user);
     const { password, confirmationToken, recoverToken, ...result } = user;
-    return result;
+
+    const payload = { username: user.username, sub: user.id };
+    return {
+      jwt: this.jwtService.sign(payload),
+      user: result
+    };
   }
 }
