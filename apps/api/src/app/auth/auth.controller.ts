@@ -135,9 +135,9 @@ export class AuthController {
       throw new HttpException('not-found-or-expirated', HttpStatus.NOT_FOUND);
     }
 
-    const user = await this.authService.confirm(params.token, body.password);
+    const result = await this.authService.confirm(params.token, body.password);
 
-    if (user === null) {
+    if (result.user === null) {
       throw new HttpException(
         'user-creation-error',
         HttpStatus.INTERNAL_SERVER_ERROR
@@ -145,11 +145,11 @@ export class AuthController {
     }
     try {
       const res = await sgMail.send({
-        to: environment.production ? user.email : 'l.gilhard@gmail.com',
+        to: environment.production ? result.user.email : 'l.gilhard@gmail.com',
         from: 'People<people@flud.fr>',
         subject: 'Welcome',
         text: `
-          Hi ${user.firstname},\n
+          Hi ${result.user.firstname},\n
           Congratulations, your People account is now activated !\n\n
           People is still in development, so you have chances to find bugs or undesired behaviour. But don't be affraid, we are working hard to make People stable and fully featured.\n\n
           If you have any problems or additionnal questions, feel free to contact ou Support team (@: l.gilhard@gmail.com).\n\n
@@ -157,7 +157,7 @@ export class AuthController {
           The People team.
         `,
         html: `
-          <p>Hi ${user.firstname},</p>
+          <p>Hi ${result.user.firstname},</p>
           <p>Congratulations, your People account is now activated !</p>
           <p>People is still in development, so you have chances to find bugs or undesired behaviour. But don't be affraid, we are working hard to make People stable and fully featured.<br />
           If you have any problems or additionnal questions, feel free to contact our <a href="mail:l.gilhard@gmail.com">Support team</a></p>
