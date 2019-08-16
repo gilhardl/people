@@ -22,6 +22,13 @@ export class UsersService extends TypeOrmCrudService<User> {
     return users.length > 0 ? users[0] : null;
   }
 
+  async findOneByConfirmationToken(token: string): Promise<User> {
+    const users: User[] = await this.repo.find({
+      confirmationToken: Equal(token)
+    });
+    return users.length > 0 ? users[0] : null;
+  }
+
   async register(
     username: string,
     email: string,
@@ -52,5 +59,9 @@ export class UsersService extends TypeOrmCrudService<User> {
       })
       .execute();
     return users.length > 0 ? false : true;
+  }
+
+  async confirm(user: User): Promise<User> {
+    return this.repo.save(user);
   }
 }
