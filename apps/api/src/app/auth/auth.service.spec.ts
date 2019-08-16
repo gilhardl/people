@@ -109,7 +109,10 @@ describe('AuthService', () => {
 
       jest
         .spyOn(usersService, 'register')
-        .mockImplementation(async () => expected.user);
+        .mockImplementation(async () => ({
+          ...expected.user,
+          confirmationToken: expected.token
+        }));
 
       uuid.mockReturnValue(expected.token);
 
