@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
-import * as uuid from 'uuid/v4';
+import * as uuid from 'uuid/v1';
 
 import { UsersEntity } from '@people/users';
 

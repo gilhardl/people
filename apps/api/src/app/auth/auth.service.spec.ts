@@ -4,7 +4,7 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 
 import { environment } from '../../environments/environment';
 
-import * as uuid from 'uuid/v4';
+import * as uuid from 'uuid/v1';
 
 import { AuthService } from './auth.service';
 import { UsersService } from '../users/users.service';
@@ -13,7 +13,7 @@ import { User } from '../entities/user.entity';
 
 import * as mocks from '../users/__mocks__/users';
 
-jest.mock('uuid/v4');
+jest.mock('uuid/v1');
 
 const MockRepository = jest.fn().mockImplementation(() => {
   return {
@@ -104,15 +104,13 @@ describe('AuthService', () => {
           email: user.email,
           job: ''
         },
-        token: '10ba038e-48da-487b-96e8-8d3b99b6d18a'
+        token: '2c5ea4c0-4067-11e9-8bad-9b1deb4d3b7d'
       };
 
-      jest
-        .spyOn(usersService, 'register')
-        .mockImplementation(async () => ({
-          ...expected.user,
-          confirmationToken: expected.token
-        }));
+      jest.spyOn(usersService, 'register').mockImplementation(async () => ({
+        ...expected.user,
+        confirmationToken: expected.token
+      }));
 
       uuid.mockReturnValue(expected.token);
 
