@@ -1,6 +1,6 @@
 # People
 
-<img src="assets/icon.svg" alt="People logo" width="200"/>
+<img src="icon.svg" alt="People logo" width="200"/>
 
 ## Presentation
 
