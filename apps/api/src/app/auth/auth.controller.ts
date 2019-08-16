@@ -70,29 +70,43 @@ export class AuthController {
 
     const confirmationUrl = body.confirmationUrl + '/' + token;
 
-    sgMail.send({
-      to: environment.production ? user.email : 'l.gilhard@gmail.com',
-      from: 'People<people@flud.fr>',
-      subject: 'Activate your account',
-      text: `
-        ${user.firstname} ${user.lastname},\n
-        To activate your People account, please verify your email address.\n
-        Your account will not be created until your email address is confirmed.\n\n
-        To verify your email, copy and paste the following URL into your browser:\n
-        ${confirmationUrl}
-      `,
-      html: `
-        <p>${user.firstname} ${user.lastname},</p>
-        <p>To activate your People account, please verify your email address.<br />
-        Your account will not be created until your email address is confirmed.</p>
-        <a href="${confirmationUrl}">Verify my email address</a>
-        <br />
-        <p>Or, copy and paste the following URL into your browser:</p>
-        <a href="${confirmationUrl}">${confirmationUrl}</a>
-      `
-    });
+    try {
+      const res = await sgMail.send({
+        to: environment.production ? user.email : 'l.gilhard@gmail.com',
+        from: 'People<people@flud.fr>',
+        subject: 'Activate your account',
+        text: `
+          ${user.firstname} ${user.lastname},\n
+          To activate your People account, please verify your email address.\n
+          Your account will not be created until your email address is confirmed.\n\n
+          To verify your email, copy and paste the following URL into your browser:\n
+          ${confirmationUrl}
+        `,
+        html: `
+          <p>${user.firstname} ${user.lastname},</p>
+          <p>To activate your People account, please verify your email address.<br />
+          Your account will not be created until your email address is confirmed.</p>
+          <a href="${confirmationUrl}">Verify my email address</a>
+          <br />
+          <p>Or, copy and paste the following URL into your browser:</p>
+          <a href="${confirmationUrl}">${confirmationUrl}</a>
+        `
+      });
 
-    return true;
+      if (res[0].statusCode !== 202) {
+        throw new HttpException(
+          'error-sending-confirmation-email',
+          HttpStatus.INTERNAL_SERVER_ERROR
+        );
+      }
+
+      return true;
+    } catch (err) {
+      throw new HttpException(
+        'error-sending-confirmation-email',
+        HttpStatus.INTERNAL_SERVER_ERROR
+      );
+    }
   }
 
   @Get('email-availability/:email')
