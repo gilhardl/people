@@ -61,12 +61,6 @@ export class AuthController {
         HttpStatus.INTERNAL_SERVER_ERROR
       );
     }
-    if (token === null) {
-      throw new HttpException(
-        'token-creation-error',
-        HttpStatus.INTERNAL_SERVER_ERROR
-      );
-    }
 
     const confirmationUrl = body.confirmationUrl + '/' + token;
 
@@ -120,5 +114,71 @@ export class AuthController {
     }
 
     return this.usersService.isEmailAvailable(params.email);
+  }
+
+  @Get('initiate-confirmation/:token')
+  async initiateConfirmation(@Param() params) {
+    const tokenOk = await this.authService.initiateConfirmation(params.token);
+    if (!tokenOk) {
+      throw new HttpException('not-found-or-expirated', HttpStatus.NOT_FOUND);
+    }
+    return true;
+  }
+
+  @Post('confirm/:token')
+  async confirm(@Body() body: any, @Param() params) {
+    if (body.password.length < 6) {
+      throw new HttpException('password-too-weak', HttpStatus.BAD_REQUEST);
+    }
+    const tokenOk = await this.authService.initiateConfirmation(params.token);
+    if (!tokenOk) {
+      throw new HttpException('not-found-or-expirated', HttpStatus.NOT_FOUND);
+    }
+
+    const user = await this.authService.confirm(params.token, body.password);
+
+    if (user === null) {
+      throw new HttpException(
+        'user-creation-error',
+        HttpStatus.INTERNAL_SERVER_ERROR
+      );
+    }
+    try {
+      const res = await sgMail.send({
+        to: environment.production ? user.email : 'l.gilhard@gmail.com',
+        from: 'People<people@flud.fr>',
+        subject: 'Welcome',
+        text: `
+          Hi ${user.firstname},\n
+          Congratulations, your People account is now activated !\n\n
+          People is still in development, so you have chances to find bugs or undesired behaviour. But don't be affraid, we are working hard to make People stable and fully featured.\n\n
+          If you have any problems or additionnal questions, feel free to contact ou Support team (@: l.gilhard@gmail.com).\n\n
+          See you soon on People,\n
+          The People team.
+        `,
+        html: `
+          <p>Hi ${user.firstname},</p>
+          <p>Congratulations, your People account is now activated !</p>
+          <p>People is still in development, so you have chances to find bugs or undesired behaviour. But don't be affraid, we are working hard to make People stable and fully featured.<br />
+          If you have any problems or additionnal questions, feel free to contact our <a href="mail:l.gilhard@gmail.com">Support team</a></p>
+          <p>See you soon on People,<br />
+          The People team.</p>
+        `
+      });
+
+      if (res[0].statusCode !== 202) {
+        throw new HttpException(
+          'error-sending-registration-email',
+          HttpStatus.INTERNAL_SERVER_ERROR
+        );
+      }
+
+      return true;
+    } catch (err) {
+      throw new HttpException(
+        'error-sending-registration-email',
+        HttpStatus.INTERNAL_SERVER_ERROR
+      );
+    }
   }
 }
