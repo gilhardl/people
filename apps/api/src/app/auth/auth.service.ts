@@ -42,17 +42,14 @@ export class AuthService {
       username,
       email,
       firstname,
-      lastname
+      lastname,
+      uuid()
     );
     const { password, confirmationToken, recoverToken, ...result } = user;
 
-    const tokenValue = uuid();
-
-    // Todo : Implements Token feature
-
     return {
       user: result,
-      token: tokenValue
+      token: confirmationToken
     };
   }
 }

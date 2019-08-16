@@ -26,7 +26,8 @@ export class UsersService extends TypeOrmCrudService<User> {
     username: string,
     email: string,
     firstname: string,
-    lastname: string
+    lastname: string,
+    confirmationToken: string
   ): Promise<User> {
     const user = this.repo.create({
       username: username,
@@ -36,7 +37,8 @@ export class UsersService extends TypeOrmCrudService<User> {
       lastname: lastname,
       phone: '',
       email: email,
-      job: ''
+      job: '',
+      confirmationToken: confirmationToken
     });
     return this.repo.save(user);
   }
