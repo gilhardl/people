@@ -2,9 +2,13 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { JwtModule } from '@nestjs/jwt';
 import { getRepositoryToken } from '@nestjs/typeorm';
 
-import { environment } from '../../environments/environment';
+import * as moment from 'moment';
 
+import * as uuidTime from 'uuid-time';
 import * as uuid from 'uuid/v1';
+import * as crypto from 'crypto';
+
+import { environment } from '../../environments/environment';
 
 import { AuthService } from './auth.service';
 import { UsersService } from '../users/users.service';
@@ -14,6 +18,7 @@ import { User } from '../entities/user.entity';
 import * as mocks from '../users/__mocks__/users';
 
 jest.mock('uuid/v1');
+jest.mock('uuid-time');
 
 const MockRepository = jest.fn().mockImplementation(() => {
   return {
@@ -56,7 +61,13 @@ describe('AuthService', () => {
 
       jest
         .spyOn(usersService, 'findOneByUsername')
-        .mockImplementation(async () => mocks.user);
+        .mockImplementation(async () => ({
+          ...mocks.user,
+          password: crypto
+            .createHash('md5')
+            .update(password)
+            .digest('hex')
+        }));
 
       const result = await service.validateUser(user.username, password);
 
@@ -122,6 +133,57 @@ describe('AuthService', () => {
       );
 
       expect(result).toMatchObject(expected);
+    });
+  });
+
+  describe('initiateConfirmation', () => {
+    it("should return false if token expiration date isn't valid", async () => {
+      uuidTime.v1.mockReturnValue(
+        moment()
+          .subtract(2, 'hours')
+          .valueOf()
+      );
+      const token = uuid();
+
+      const res = await service.initiateConfirmation(token);
+
+      expect(res).toBe(false);
+    });
+
+    it('should return true (success)', async () => {
+      const user = mocks.user;
+
+      const token = uuid();
+
+      uuidTime.v1.mockReturnValue(
+        moment()
+          .subtract(2, 'minutes')
+          .valueOf()
+      );
+      jest
+        .spyOn(usersService, 'findOneByConfirmationToken')
+        .mockImplementation(async () => user);
+
+      const res = await service.initiateConfirmation(token);
+
+      expect(res).toBe(true);
+    });
+
+    it('should return false (error)', async () => {
+      const token = uuid();
+
+      uuidTime.v1.mockReturnValue(
+        moment()
+          .subtract(2, 'minutes')
+          .valueOf()
+      );
+      jest
+        .spyOn(usersService, 'findOneByConfirmationToken')
+        .mockImplementation(async () => null);
+
+      const res = await service.initiateConfirmation(token);
+
+      expect(res).toBe(false);
     });
   });
 });
